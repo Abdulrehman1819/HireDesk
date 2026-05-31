@@ -10,7 +10,7 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     private TenantRepository tenantRepository;
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return tenantRepository.findUserByName(username);
+    public UserDetails loadUserByUsername(String adminEmail) throws UsernameNotFoundException {
+        return tenantRepository.findByAdminEmail(adminEmail);
     }
 }

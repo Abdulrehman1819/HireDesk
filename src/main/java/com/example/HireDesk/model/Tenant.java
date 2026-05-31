@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,7 +21,11 @@ public class Tenant implements UserDetails {
     private Integer id;
     @NotBlank(message = "Company Name Should Not be Empty")
     private String companyName;
-
+    @PrePersist
+    public void prePersist(){
+        role="ADMIN";
+    }
+    private String role;
     private String adminName;
     @NotBlank(message="Email Should Not be Empty")
     @Email(message="Email Should be Valid",regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
@@ -29,8 +34,12 @@ public class Tenant implements UserDetails {
     private String adminPassword;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+    public Collection<? extends GrantedAuthority> getAuthorities()
+
+    {
+        Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        assert auth != null;
+        return auth.getAuthorities();
     }
 
     @Override

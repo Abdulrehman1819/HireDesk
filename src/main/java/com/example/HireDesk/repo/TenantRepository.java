@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TenantRepository extends JpaRepository<Tenant,Integer>  {
-Tenant findUserByName(String name);
+Tenant findByAdminEmail(String adminEmail);
 }

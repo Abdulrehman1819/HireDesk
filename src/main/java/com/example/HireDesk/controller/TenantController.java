@@ -1,5 +1,7 @@
 package com.example.HireDesk.controller;
 
+import com.example.HireDesk.dto.TenantLoginRequestDTO;
+import com.example.HireDesk.dto.TenantResponseDTO;
 import com.example.HireDesk.model.Tenant;
 import com.example.HireDesk.service.TenantService;
 import jakarta.validation.Valid;
@@ -17,10 +19,11 @@ public class TenantController {
 TenantService tenantService;
 
 @PostMapping("/signup")
-    public ResponseEntity<Tenant> signup(@Valid @RequestBody Tenant tenant){
-
-    tenantService.createTenant(tenant) ;
-    return ResponseEntity.status(201).body(tenant);
+    public ResponseEntity<TenantResponseDTO> signup(@Valid @RequestBody Tenant tenant){
+    return ResponseEntity.status(201).body(tenantService.createTenant(tenant));
 }
-
+@PostMapping("/login")
+    public ResponseEntity<String> login(@Valid @RequestBody TenantLoginRequestDTO tenant){
+    return  ResponseEntity.status(200).body(tenantService.loginTenant(tenant));
+}
 }
